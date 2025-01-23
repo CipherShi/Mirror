@@ -1,0 +1,5 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Rounded Bubble Background -->
+    <solid android:color="#5E35B1" />
+    <corners android:radius="10dp" />
+</shape>
