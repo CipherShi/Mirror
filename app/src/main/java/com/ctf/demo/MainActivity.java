@@ -31,7 +31,6 @@ import nl.dionsegijn.konfetti.core.emitter.EmitterConfig;
 import nl.dionsegijn.konfetti.core.models.Size;
 
 public class MainActivity extends AppCompatActivity {
-    private static final int FLAG_LENGTH = 16;
     private MainBinding binding;
 
     @Override
@@ -44,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("Mirror Challenge");
         }
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        writeFlagToFile();
         RelativeLayout hintBubble = binding.bubbleContainer;
         RelativeLayout textboxContainer = binding.textboxContainer;
         Button showHiddenButton = binding.showHintButton;
@@ -97,25 +95,6 @@ public class MainActivity extends AppCompatActivity {
             intent.setData(intent.getData());
             startActivity(intent);
         }
-    }
-
-    private void writeFlagToFile() {
-        String flag = generateSecureFlag();
-        try {
-            FileOutputStream fos = openFileOutput("flag.txt", MODE_PRIVATE);
-            fos.write(flag.getBytes());
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String generateSecureFlag() {
-        SecureRandom secureRandom = new SecureRandom();
-        byte[] randomBytes = new byte[FLAG_LENGTH];
-        secureRandom.nextBytes(randomBytes);
-        String randomString = Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
-        return "CTF{" + randomString + "}";
     }
 
     private String readFlagFromFile() {
