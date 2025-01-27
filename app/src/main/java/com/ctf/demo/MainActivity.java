@@ -31,12 +31,10 @@ import nl.dionsegijn.konfetti.core.emitter.EmitterConfig;
 import nl.dionsegijn.konfetti.core.models.Size;
 
 public class MainActivity extends AppCompatActivity {
-    private MainBinding binding;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = MainBinding.inflate(getLayoutInflater());
+        MainBinding binding = MainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
         if (getSupportActionBar() != null) {
@@ -83,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 if (readFlagFromFile().equalsIgnoreCase(enteredText)) {
                     binding.konfettiView.start(party);
                     Toast.makeText(MainActivity.this, "Correct input: secret!", Toast.LENGTH_SHORT).show();
+                    deleteFile("flag.txt");
                 } else {
                     Toast.makeText(MainActivity.this, "Incorrect secret. Try again!", Toast.LENGTH_SHORT).show();
                 }

@@ -1,5 +1,6 @@
 package com.ctf.demo;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,22 +21,23 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.Objects;
 
 public class WebViewActivity extends AppCompatActivity {
-    private WebviewBinding binding;
     private static final int FLAG_LENGTH = 16;
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = WebviewBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view);
-        WebView webView = binding.webview;
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webView.addJavascriptInterface(new JSInterface(), "Android");
         Uri uri = getIntent().getData();
-        if (uri != null && uri.toString().startsWith("https://google.com")) {
+        if (uri != null && Objects.equals(uri.getHost(), "google.com")) {
+            WebviewBinding binding = WebviewBinding.inflate(getLayoutInflater());
+            View view = binding.getRoot();
+            setContentView(view);
+            WebView webView = binding.webview;
+            WebSettings webSettings = webView.getSettings();
+            webSettings.setJavaScriptEnabled(true);
+            webView.addJavascriptInterface(new JSInterface(), "Android");
             webView.setWebViewClient(new WebViewClient() {
                 @Override
                 public void onPageFinished(WebView view, String url) {
@@ -51,7 +53,6 @@ public class WebViewActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        deleteFile("flag.txt");
     }
 
     private void writeFlagToFile() {
